@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from "react-modal";
 
-function LoginModal({showLoginModal, idInputChange, pwInputChange, login}) {
+function LoginModal({showLoginModal, idInputChange, pwInputChange, login, handleCloseLoginModal}) {
   return <Modal
   isOpen={showLoginModal}
   contentLabel="Minimal Modal Example"
@@ -44,7 +44,7 @@ function LoginModal({showLoginModal, idInputChange, pwInputChange, login}) {
         placeholder="Enter password"
         onChange={pwInputChange}
       />
-    </div>          
+    </div>
     <button
       type="button"
       className="btn btn-primary"

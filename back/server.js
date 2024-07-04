@@ -6,6 +6,8 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 // express 인스턴스 생성
 const app = express();
+
+const exrateRouter = require('./routes/exrate')
 // 포트 정보
 const port = 8080;
 
@@ -42,4 +44,5 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 app.use('/', require('./routes/account'));
+app.use('/exchange', exrateRouter);
 

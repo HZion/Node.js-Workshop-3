@@ -23,8 +23,15 @@ import Icons from "views/Icons.js";
 import Maps from "views/Maps.js";
 import Notifications from "views/Notifications.js";
 import Upgrade from "views/Upgrade.js";
+import CurrencyConverter from "./views/CurrencyConverter";
 
 const dashboardRoutes = [
+  {
+    path: "/convert",
+    name: "Currency Converter",
+    component: CurrencyConverter,
+    layout: "/admin"
+  },
   {
     upgrade: true,
     path: "/upgrade",

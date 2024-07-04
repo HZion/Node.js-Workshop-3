@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-modal";
 
-function InsertMemberModal({showModal, idInputChange, pwInputChange, nameInputChange, insertMember}) {
+function InsertMemberModal({ showModal, idInputChange, pwInputChange, nameInputChange, insertMember, handleCloseModal}) {
   return (
     <Modal
       isOpen={showModal}

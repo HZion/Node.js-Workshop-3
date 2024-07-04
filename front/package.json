@@ -3,6 +3,7 @@
   "version": "2.0.1",
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.15.2",
+    "axios": "^1.7.2",
     "bootstrap": "4.6.0",
     "chartist": "0.11.4",
     "gulp": "4.0.2",
@@ -34,6 +35,7 @@
     "minify:scss": "sass src/assets/scss/light-bootstrap-dashboard-pro-react.scss src/assets/css/light-bootstrap-dashboard-pro-react.min.css --style compressed",
     "build:scss": "npm run compile:scss && npm run minify:scss"
   },
+  "proxy": "http://localhost:8080",
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
