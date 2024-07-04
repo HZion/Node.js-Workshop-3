@@ -32,11 +32,11 @@ router.post('/account/insertMember', async function (req, res) {
         };
   
         const salt = generateSalt();
-        const hashedPassword = sha256(req.body.userpw + salt);
+        const hashedPassword = sha256(req.body.pw + salt);
   
-        const insertUserQuery = 'INSERT INTO users (Uid, Upw, asset, salt) VALUES (?, ?, ?,?)';
-  
-        mysqldb.query(insertUserQuery, [req.body.id, hashedPassword, '0', salt], (err, results) => {
+        const insertUserQuery = 'INSERT INTO users (Uid, Upw, salt) VALUES (?, ?, ?)';
+      
+        mysqldb.query(insertUserQuery, [req.body.id, hashedPassword,  salt], (err, results) => {
             if (err) {
                 console.error('error during user insertion: ' + err.stack);
                 return res.status(500).json({ error: 'Database error' });
