@@ -253,6 +253,7 @@ function Header() {
       </Navbar>
 
       {/* 회원가입 모달  */}
+
       <InsertMemberModal
       showModal={showModal}
       idInputChange={idInputChange}
@@ -271,6 +272,7 @@ function Header() {
       handleCloseLoginModal={handleCloseLoginModal}
       >
       </LoginModal>
+
     </div>
   );
 }
