@@ -50,7 +50,7 @@ router.post('/account/insertMember', async function (req, res) {
   router.post("/account/login", async function (req, res) {
     console.log(req.body);
     const { mysqldb } = await setup();
-    const sql = 'SELECT Uid, Upw, asset, salt FROM users WHERE Uid=?';
+    const sql = 'SELECT Uid, Upw, salt FROM users WHERE Uid=?';
   
     mysqldb.query(sql, [req.body.id], (err, rows, fields) => {
         if (err) {
