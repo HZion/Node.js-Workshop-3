@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from "react-modal";
 
-function LoginModal({showLoginModal, idInputChange, pwInputChange, login}) {
+function LoginModal({showLoginModal, idInputChange, pwInputChange, login,handleCloseLoginModal}) {
   return <Modal
   isOpen={showLoginModal}
   contentLabel="Minimal Modal Example"

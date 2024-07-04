@@ -250,10 +250,27 @@ function Header() {
       </Navbar>
 
       {/* 회원가입 모달  */}
-      <InsertMemberModal showModal={showModal} idInputChange={idInputChange} pwInputChange={pwInputChange} nameInputChange={nameInputChange} insertMember={insertMember}></InsertMemberModal>
+      <InsertMemberModal 
+      showModal={showModal} 
+      idInputChange={idInputChange} 
+      pwInputChange={pwInputChange} 
+      nameInputChange={nameInputChange} 
+      insertMember={insertMember}
+      handleCloseModal={handleCloseModal}
+      ></InsertMemberModal>
 
       {/* 로그인 모달  */}
-      <LoginModal showLoginModal={showLoginModal} idInputChange={idInputChange} pwInputChange={pwInputChange} login={login}></LoginModal>
+      <LoginModal  
+      
+      showLoginModal={showLoginModal} 
+      idInputChange={idInputChange} 
+      pwInputChange={pwInputChange} 
+      login={login}
+      handleCloseModal={handleCloseModal} 
+      >
+      
+      </LoginModal>
+      
     </div>
   );
 }
