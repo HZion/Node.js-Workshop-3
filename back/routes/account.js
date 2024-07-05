@@ -16,7 +16,7 @@ router.post('/account/insertMember', async function (req, res) {
     const { mysqldb } = await setup();
     console.log('db 확인');
   
-    const checkUserQuery = 'SELECT COUNT(*) AS count FROM users WHERE Uid = ?';
+    const checkUserQuery = 'SELECT COUNT(*) AS count FROM account WHERE Uid = ?';
   
     mysqldb.query(checkUserQuery, [req.body.id], (err, results) => {
         if (err) {
@@ -34,9 +34,9 @@ router.post('/account/insertMember', async function (req, res) {
         const salt = generateSalt();
         const hashedPassword = sha256(req.body.pw + salt);
   
-        const insertUserQuery = 'INSERT INTO users (Uid, Upw, salt) VALUES (?, ?, ?)';
+        const insertUserQuery = 'INSERT INTO account (Uid, Upw, salt,NAME,Email) VALUES (?, ?, ?,?,?)';
       
-        mysqldb.query(insertUserQuery, [req.body.id, hashedPassword,  salt], (err, results) => {
+        mysqldb.query(insertUserQuery, [req.body.id, hashedPassword,  " ", " ", " "], (err, results) => {
             if (err) {
                 console.error('error during user insertion: ' + err.stack);
                 return res.status(500).json({ error: 'Database error' });
@@ -50,7 +50,7 @@ router.post('/account/insertMember', async function (req, res) {
   router.post("/account/login", async function (req, res) {
     console.log(req.body);
     const { mysqldb } = await setup();
-    const sql = 'SELECT Uid, Upw, salt FROM users WHERE Uid=?';
+    const sql = 'SELECT Uid, Upw, salt FROM account WHERE Uid=?';
   
     mysqldb.query(sql, [req.body.id], (err, rows, fields) => {
         if (err) {
