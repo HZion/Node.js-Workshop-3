@@ -267,7 +267,7 @@ function Header() {
       idInputChange={idInputChange} 
       pwInputChange={pwInputChange} 
       login={login}
-      handleCloseModal={handleCloseLoginModal} 
+      handleCloseLoginModal ={handleCloseLoginModal} 
       >
       
       </LoginModal>
