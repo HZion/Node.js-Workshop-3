@@ -24,6 +24,8 @@ import Maps from "views/Maps.js";
 import Notifications from "views/Notifications.js";
 import Upgrade from "views/Upgrade.js";
 import CurrencyConverter from "./views/CurrencyConverter";
+import CurrencyTransfer from "./views/Transfer";
+import TransactionList from "./views/transactionList";
 
 const dashboardRoutes = [
   {
@@ -32,6 +34,19 @@ const dashboardRoutes = [
     component: CurrencyConverter,
     layout: "/admin"
   },
+  {
+    path: "/transfer",
+    name: "Currency transfer",
+    component: CurrencyTransfer,
+    layout: "/admin"
+  },
+  {
+    path: "/list",
+    name: "transaction List",
+    component: TransactionList,
+    layout: "/admin"
+  },
+
   {
     upgrade: true,
     path: "/upgrade",
@@ -75,13 +90,13 @@ const dashboardRoutes = [
     component: Icons,
     layout: "/admin"
   },
-  {
-    path: "/maps",
-    name: "Maps",
-    icon: "nc-icon nc-pin-3",
-    component: Maps,
-    layout: "/admin"
-  },
+  // {
+  //   path: "/maps",
+  //   name: "Maps",
+  //   icon: "nc-icon nc-pin-3",
+  //   component: Maps,
+  //   layout: "/admin"
+  // },
   {
     path: "/notifications",
     name: "Notifications",

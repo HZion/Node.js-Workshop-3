@@ -209,7 +209,7 @@ function Header() {
                 <Nav.Link className="m-0" href="#pablo" onClick={(e) => e.preventDefault()}>
                   <span className="no-icon">Account</span>
                 </Nav.Link>
-                <Nav.Link className="m-0" href="/exchange/api" onClick={(e) => e.preventDefault()}>
+                <Nav.Link className="m-0" href="/banking/api" onClick={(e) => e.preventDefault()}>
                   <span className="no-icon">환전</span>
                 </Nav.Link>
               </Nav.Item>

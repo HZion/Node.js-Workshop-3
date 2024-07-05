@@ -9,7 +9,7 @@ const CurrencyConverter = () => {
     const [convertedAmount, setConvertedAmount] = useState(0);
 
     useEffect(() => {
-        axios.get('/exchange/api')
+        axios.get('/banking/api', {maxRedirects: 5})
             .then(response => {
                 console.log(response.data);  // 데이터 확인
                 setRates(response.data);

@@ -1,5 +1,5 @@
 const dotenv = require('dotenv').config();
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
 let mysqldb;
 
@@ -8,14 +8,13 @@ const setup = async () => {
         return {mysqldb};
     }
 
-    try {        
-        mysqldb = mysql.createConnection({
+    try {
+        mysqldb = await mysql.createConnection({
             host: process.env.MYSQL_HOST,
             user: process.env.MYSQL_ID,
             password: process.env.MYSQL_PW,
             database: process.env.MYSQL_DB,
         });
-        mysqldb.connect();
         console.log("MySQL 접속 성공.");
         return { mysqldb };
     } catch (err) {
