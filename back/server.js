@@ -35,7 +35,7 @@ const corsOptions = {
   origin: 'http://localhost:3000',
 }
 app.use(cors(corsOptions))
-app.use('/', require('./routes/account'));
+
 
 
 // 라우터 설정

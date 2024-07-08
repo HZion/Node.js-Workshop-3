@@ -90,13 +90,13 @@ const dashboardRoutes = [
     component: Icons,
     layout: "/admin"
   },
-  // {
-  //   path: "/maps",
-  //   name: "Maps",
-  //   icon: "nc-icon nc-pin-3",
-  //   component: Maps,
-  //   layout: "/admin"
-  // },
+  {
+    path: "/maps",
+    name: "Maps",
+    icon: "nc-icon nc-pin-3",
+    component: Maps,
+    layout: "/admin"
+  },
   {
     path: "/notifications",
     name: "Notifications",

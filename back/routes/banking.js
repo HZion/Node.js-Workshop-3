@@ -72,6 +72,7 @@ const authenticateToken = (req, res, next) => {
 
 router.get('/api', async (req, res) => {
     const apikey = process.env.EXRATE_KEY;
+
     const url = `https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=${apikey}&data=AP01`
 
     try {
@@ -80,7 +81,7 @@ router.get('/api', async (req, res) => {
 
         const useCase = ['JPY(100)', 'CNH', 'USD', 'KRW'];
         const useData = data.filter(d => useCase.includes(d.cur_unit));
-
+        console.log("OK")
         res.json(useData);
     } catch (error) {
         console.error('Error fetching data from API', error);
