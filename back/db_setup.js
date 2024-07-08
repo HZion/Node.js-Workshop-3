@@ -14,6 +14,7 @@ const setup = async () => {
             user: process.env.MYSQL_ID,
             password: process.env.MYSQL_PW,
             database: process.env.MYSQL_DB,
+             charset: 'utf8mb4'
         });
         console.log("MySQL 접속 성공.");
         return { mysqldb };
