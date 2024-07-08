@@ -1,26 +1,18 @@
-
-
 // express 불러오기
 const express = require('express');
-//dotenv
+// dotenv
 const dotenv = require('dotenv').config();
 // express 인스턴스 생성
 const app = express();
 
 const exrateRouter = require('./routes/banking')
 // 포트 정보
-const port = 8080;
+const port = process.env.WEB_PORT || 8080; // 환경 변수에서 포트를 가져오거나 기본값으로 8080 사용
 
-// 라우트 설정
-// HTTP GET 방식으로 '/' 경로를 요청하였을 때
-// Hello World!라는 문자열을 결과값으로 보냄
+// db_setup
 const { setup } = require('./db_setup');
 
-app.get('/', (req, res) => {
-  res.render('index.ejs');
-});
-
-//세션
+// 세션 (필요할 경우 사용)
 // const session = require('express-session');
 // app.use(session({
 //   secret: 'your-secret-key', // 세션 암호화에 사용되는 키
@@ -28,21 +20,25 @@ app.get('/', (req, res) => {
 //   saveUninitialized: false // 초기화되지 않은 세션을 저장할지 설정
 // }));
 
-
-app.listen(process.env.WEB_PORT, async () => {
+// 서버 시작
+app.listen(port, async () => {
   await setup();
   console.log(`App running on port ${port}...`);
 });
 
+// JSON 요청을 처리하기 위한 미들웨어
+app.use(express.json());
 
-app.use(express.json())
-
-//cors
-const cors = require('cors')
+// CORS 설정
+const cors = require('cors');
 const corsOptions = {
   origin: 'http://localhost:3000',
 }
 app.use(cors(corsOptions))
 app.use('/', require('./routes/account'));
-app.use('/banking', exrateRouter);
 
+
+// 라우터 설정
+app.use('/', require('./routes/account'));
+app.use('/maps', require('./routes/maps'));
+app.use('/banking', exrateRouter);

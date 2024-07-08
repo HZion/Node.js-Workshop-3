@@ -148,6 +148,7 @@ function Header() {
     data = await data.json();
     alert(data.msg);
   };
+  
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -269,7 +270,10 @@ function Header() {
       idInputChange={idInputChange}
       pwInputChange={pwInputChange}
       login={login}
-      handleCloseLoginModal={handleCloseLoginModal}
+
+
+      handleCloseLoginModal ={handleCloseLoginModal} 
+
       >
       </LoginModal>
 
