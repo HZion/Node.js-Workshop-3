@@ -8,7 +8,7 @@ const app = express();
 const exrateRouter = require('./routes/banking')
 // 포트 정보
 
-const port = 4000;
+const port = 30000;
 
 // db_setup
 const { setup } = require('./db_setup');
@@ -43,4 +43,5 @@ app.use(cors(corsOptions))
 // 라우터 설정
 app.use('/', require('./routes/account'));
 app.use('/maps', require('./routes/maps'));
+app.use('/post', require('./routes/post'));
 app.use('/banking', exrateRouter);

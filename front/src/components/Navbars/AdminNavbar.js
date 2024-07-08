@@ -110,7 +110,7 @@ function Header() {
   };
 
   const login = () => {
-    fetch("http://localhost:4000/account/login", {
+    fetch("http://localhost:30000/account/login", {
       method: "POST", //메소드 지정
       headers: {
         //데이터 타입 지정

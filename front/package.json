@@ -37,7 +37,7 @@
     "minify:scss": "sass src/assets/scss/light-bootstrap-dashboard-pro-react.scss src/assets/css/light-bootstrap-dashboard-pro-react.min.css --style compressed",
     "build:scss": "npm run compile:scss && npm run minify:scss"
   },
-  "proxy": "http://127.0.0.1:4000",
+  "proxy": "http://127.0.0.1:30000",
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
