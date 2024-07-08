@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { KakaoMap, Marker, InfoWindow } from 'react-kakao-maps'; // react-kakao-maps에서 필요한 컴포넌트 임포트
 
 Modal.setAppElement('#root');
-
+ const API_PORT = '30000'
 function Maps() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [realEstateName, setRealEstateName] = useState('');
@@ -26,7 +26,7 @@ function Maps() {
 //랜더링 시작시 db와 연결
   const fetchProperties = async () => {
     try {
-      const serverResponse = await fetch('http://localhost:8080/maps/loadmap', {
+      const serverResponse = await fetch(`http://localhost:${API_PORT}/maps/loadmap`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json;charset=utf-8",
@@ -92,7 +92,7 @@ function Maps() {
 
       // 부동산 정보를 서버로 전송
  
-        const serverResponse = await fetch('http://localhost:8080/maps/insertmap', {
+        const serverResponse = await fetch(`http://localhost:${API_PORT}/maps/insertmap`, {
           method: 'POST',
           headers: {
             "Content-Type": "application/json;charset=utf-8",
