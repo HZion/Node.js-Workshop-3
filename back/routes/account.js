@@ -12,44 +12,48 @@ const jwt = require('jsonwebtoken');
 
 
 router.post('/account/insertMember', async function (req, res) {
+
+  const { mysqldb } = await setup();
+  console.log('db 확인');
+
+
+  try {
     console.log("회원가입 시작");
-    const { mysqldb } = await setup();
-    console.log('db 확인');
+      const checkUserQuery = 'SELECT COUNT(*) AS count FROM account WHERE Uid = ?';
+      let [rows, fields] = await mysqldb.query(checkUserQuery, [req.body.id])
 
-  
-    const checkUserQuery = 'SELECT COUNT(*) AS count FROM account WHERE Uid = ?';
-  
-    mysqldb.query(checkUserQuery, [req.body.id], (err, results) => {
-        if (err) {
-            return res.json({ msg: "회원 가입 실패" });
-        }
-  
-        if (results[0].count > 0) {
+      console.log(rows)
 
-            return res.json({ msg: "중복아이디로 인한 회원 가입 실패" });
-        }
+      if (rows[0].count > 0){
+          return res.json({ msg: "중복아이디로 인한 회원 가입 실패" });
+      }
 
-        const generateSalt = (length = 16) => {
-            return crypto.randomBytes(length).toString('hex');
-        };
+      const generateSalt = (length = 16) => {
+          return crypto.randomBytes(length).toString('hex');
+      };
 
-        const salt = generateSalt();
-        const hashedPassword = sha256(req.body.pw + salt);
+      const salt = generateSalt();
+      const hashedPassword = sha256(req.body.pw + salt);
 
-  
-        const insertUserQuery = 'INSERT INTO account (Uid, Upw, salt,NAME,Email) VALUES (?, ?, ?,?,?)';
-      
-        mysqldb.query(insertUserQuery, [req.body.id, hashedPassword,  " ", " ", " "], (err, results) => {
-            if (err) {
-                console.error('error during user insertion: ' + err.stack);
-                return res.status(500).json({ error: 'Database error' });
-            }
-  
-            res.json({ msg: "회원 가입 되셨습니다" });
-        });
-    });
+      const insertUserQuery = 'INSERT INTO account (Uid, Upw, salt, Name) VALUES (?, ?, ?, ?)';
 
-  });
+      let userid =''
+
+      let [row , field] = await mysqldb.query(insertUserQuery, [req.body.id, hashedPassword, salt, req.body.name])
+      console.log(row)
+      userid = row.insertId;
+
+      const makeWallet = 'INSERT INTO wallet (id) values (?)';
+
+      await mysqldb.query(makeWallet, [userid])
+
+      res.json({ msg: "회원 가입 되셨습니다" });
+  } catch (e) {
+      console.log(e)
+      return res.json({ msg: "회원 가입 실패" });
+  }
+
+});
 
 router.get('/account/users', async (req, res) => {
     try {
@@ -82,10 +86,10 @@ router.post("/account/login", async function (req, res) {
     console.log(rows[0])
 
     const hashedPassword = sha256(req.body.pw + rows[0].salt);
-    //이슈1 sha 해쉬값이 맞지 않음
-    // if (rows[0].UPW !== hashedPassword) {
-    //     return res.json({ msg: "로그인 실패 : ID와 PW를 확인해 주세요" });
-    // }
+    // 이슈1 sha 해쉬값이 맞지 않음
+    if (rows[0].UPW !== hashedPassword) {
+        return res.json({ msg: "로그인 실패 : ID와 PW를 확인해 주세요" });
+    }
     const token = jwt.sign({ userid: req.body.id, id: rows[0].id }, 'salt', { expiresIn: '5m' });
     res.status(200).json({ msg: "login ok" ,token});
 
