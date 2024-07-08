@@ -7,7 +7,8 @@ const app = express();
 
 const exrateRouter = require('./routes/banking')
 // 포트 정보
-const port = process.env.WEB_PORT || 8080; // 환경 변수에서 포트를 가져오거나 기본값으로 8080 사용
+
+const port = 4000;
 
 // db_setup
 const { setup } = require('./db_setup');
@@ -26,14 +27,15 @@ app.listen(port, async () => {
   console.log(`App running on port ${port}...`);
 });
 
-// JSON 요청을 처리하기 위한 미들웨어
-app.use(express.json());
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 
-// CORS 설정
-const cors = require('cors');
+//cors
+const cors = require('cors')
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000']
 }
+
 app.use(cors(corsOptions))
 
 
