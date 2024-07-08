@@ -26,6 +26,7 @@ import Upgrade from "views/Upgrade.js";
 import CurrencyConverter from "./views/CurrencyConverter";
 import CurrencyTransfer from "./views/Transfer";
 import TransactionList from "./views/transactionList";
+import MyPage from "./views/MyAsset";
 
 const dashboardRoutes = [
   {
@@ -44,6 +45,13 @@ const dashboardRoutes = [
     path: "/list",
     name: "transaction List",
     component: TransactionList,
+    layout: "/admin"
+  },
+
+  {
+    path: "/mypage",
+    name: "MyPage",
+    component: MyPage,
     layout: "/admin"
   },
 

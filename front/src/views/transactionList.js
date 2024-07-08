@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../styles/TransactionList.css'
 const moment = require('moment')
 function dateFormat(date) {
     return moment(date).format('YYYY-MM-DD HH:mm:ss')
@@ -19,7 +20,7 @@ const TransactionList = () => {
     }, []);
 
     return (
-        <div>
+        <div className="transaction-list">
             <h1>Transaction List</h1>
             <table>
                 <thead>

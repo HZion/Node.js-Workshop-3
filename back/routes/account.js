@@ -10,6 +10,25 @@ function sha256(input) {
 //jws 토큰
 const jwt = require('jsonwebtoken');
 
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader.split(' ')[1]
+
+    console.log(token)
+
+    if (!token) {
+        return res.sendStatus(401);
+    }
+
+    jwt.verify(token, 'salt', (err, user) => {
+        if (err) {
+            return res.sendStatus(403);
+        }
+        req.user = user;
+        next();
+    });
+};
+
 
 router.post('/account/insertMember', async function (req, res) {
 
@@ -54,6 +73,27 @@ router.post('/account/insertMember', async function (req, res) {
   }
 
 });
+
+router.get('/account/asset', authenticateToken, async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+        const {mysqldb} = await setup()
+
+        const [rows] = await mysqldb.query('SELECT USD, JPY100, KRW, CNH FROM wallet WHERE id = ?', [userId]);
+
+
+        if (rows.length > 0) {
+            res.json(rows[0]);
+        } else {
+            res.status(404).json({ error: 'User not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching user assets:', error);
+        res.status(500).json({ error: 'Failed to fetch user assets' });
+    }
+});
+
 
 router.get('/account/users', async (req, res) => {
     try {

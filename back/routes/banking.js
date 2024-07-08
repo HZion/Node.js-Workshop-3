@@ -78,6 +78,7 @@ router.get('/api', async (req, res) => {
     try {
         const response = await axios.get(url, {httpsAgent, maxRedirects: 0});
         const data = response.data;
+        console.log("OK")
 
         const useCase = ['JPY(100)', 'CNH', 'USD', 'KRW'];
         const useData = data.filter(d => useCase.includes(d.cur_unit));
@@ -203,7 +204,7 @@ router.post('/send', async (req, res) => {
         const [s_rows, s_fields] = await mysqldb.query(calQuery, [ -amount , user.id])
         const [r_rows, r_fields] = await mysqldb.query(calQuery, [ amount, req.body.receiver])
 
-        const insertQuery = 'INSERT INTO transaction(sendUid, reciveUid, money_type, amount ) values (?, ? ,? ,?)'
+        const insertQuery = 'INSERT INTO transaction(sendUid, receiveUid, money_type, amount ) values (?, ? ,? ,?)'
 
         const [result, fields] = await mysqldb.query(insertQuery, [user.id, req.body.receiver, 1, amount])
 
@@ -212,6 +213,7 @@ router.post('/send', async (req, res) => {
         res.json(result)
     } catch (e) {
         await mysqldb.rollback()
+        console.log(e)
         res.status(500).json({error: '이체에 실패하였습니다.'})
     }
 
@@ -222,11 +224,11 @@ router.get('/transactions', async (req, res) => {
 
         const {mysqldb} = await setup()
         const query = `
-            SELECT t.id, s.name AS sender_name, r.name AS receiver_name, t.amount, t.money_type, t.createdAt
+            SELECT t.id, s.name AS sender_name, r.name AS receiver_name, t.amount, t.money_type, t.created_at
             FROM transaction t
             JOIN account s ON t.sendUid = s.id
-            JOIN account r ON t.reciveUid = r.id
-            ORDER BY t.createdAt DESC;
+            JOIN account r ON t.receiveUid = r.id
+            ORDER BY t.created_at DESC;
         `;
         const [rows] = await mysqldb.query(query);
         res.json(rows);
