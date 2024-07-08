@@ -210,6 +210,9 @@ function Header() {
                 <Nav.Link className="m-0" href="#pablo" onClick={(e) => e.preventDefault()}>
                   <span className="no-icon">Account</span>
                 </Nav.Link>
+                <Nav.Link className="m-0" href="/banking/api" onClick={(e) => e.preventDefault()}>
+                  <span className="no-icon">환전</span>
+                </Nav.Link>
               </Nav.Item>
               <Dropdown as={Nav.Item}>
                 <Dropdown.Toggle aria-expanded={false} aria-haspopup={true} as={Nav.Link} data-toggle="dropdown" id="navbarDropdownMenuLink" variant="default" className="m-0">
@@ -251,27 +254,29 @@ function Header() {
       </Navbar>
 
       {/* 회원가입 모달  */}
-      <InsertMemberModal 
-      showModal={showModal} 
-      idInputChange={idInputChange} 
-      pwInputChange={pwInputChange} 
-      nameInputChange={nameInputChange} 
+
+      <InsertMemberModal
+      showModal={showModal}
+      idInputChange={idInputChange}
+      pwInputChange={pwInputChange}
+      nameInputChange={nameInputChange}
       insertMember={insertMember}
       handleCloseModal={handleCloseModal}
       ></InsertMemberModal>
 
       {/* 로그인 모달  */}
-      <LoginModal  
-      
-      showLoginModal={showLoginModal} 
-      idInputChange={idInputChange} 
-      pwInputChange={pwInputChange} 
+      <LoginModal
+      showLoginModal={showLoginModal}
+      idInputChange={idInputChange}
+      pwInputChange={pwInputChange}
       login={login}
+
+
       handleCloseLoginModal ={handleCloseLoginModal} 
+
       >
-      
       </LoginModal>
-      
+
     </div>
   );
 }

@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "axios": "^1.7.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
@@ -18,7 +19,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.8.0",
     "mysql2": "^3.10.2",
-    "react-kakao-maps": "^0.0.13",
+
+    "node-fetch": "^2.7.0",
+
     "sha256": "^0.2.0"
   }
 }

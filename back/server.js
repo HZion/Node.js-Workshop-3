@@ -4,6 +4,8 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 // express 인스턴스 생성
 const app = express();
+
+const exrateRouter = require('./routes/banking')
 // 포트 정보
 const port = process.env.WEB_PORT || 8080; // 환경 변수에서 포트를 가져오거나 기본값으로 8080 사용
 
@@ -30,10 +32,13 @@ app.use(express.json());
 // CORS 설정
 const cors = require('cors');
 const corsOptions = {
-  origin: 'http://localhost:3000', // 클라이언트의 출처를 설정
-};
-app.use(cors(corsOptions));
+  origin: 'http://localhost:3000',
+}
+app.use(cors(corsOptions))
+app.use('/', require('./routes/account'));
+
 
 // 라우터 설정
 app.use('/', require('./routes/account'));
 app.use('/maps', require('./routes/maps'));
+app.use('/banking', exrateRouter);

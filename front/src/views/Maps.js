@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import '../assets/css/map.css';
 import Modal from 'react-modal';
@@ -286,3 +287,4 @@ function Maps() {
 }
 
 export default Maps;
+
