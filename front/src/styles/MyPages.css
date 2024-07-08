@@ -1,0 +1,38 @@
+/* src/styles/MyPage.css */
+
+.my-page {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.my-page h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.my-page ul {
+    list-style: none;
+    padding: 0;
+}
+
+.my-page li {
+    background: #f9f9f9;
+    margin: 10px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.my-page li span {
+    font-weight: bold;
+    color: #555;
+}
+
+.my-page p {
+    color: red;
+    text-align: center;
+}

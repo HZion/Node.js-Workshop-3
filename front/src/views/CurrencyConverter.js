@@ -11,14 +11,18 @@ const CurrencyConverter = () => {
 
 
     useEffect(() => {
-        axios.get('/banking/api', {maxRedirects: 5})
-            .then(response => {
-                console.log(response.data);  // 데이터 확인
-                setRates(response.data);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the exchange rates!", error);
-            });
+
+        const getApi = async () => {
+
+            try {
+                const response = await axios.get('/banking/api')
+                setRates(response.data)
+            } catch (e) {
+                console.error("There was an error fetching the exchange rates!", e);
+            }
+        }
+        getApi()
+
     }, []);
 
     const handleExchange = async () => {
