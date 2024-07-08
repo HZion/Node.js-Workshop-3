@@ -26,7 +26,7 @@ const httpsAgent = new https.Agent({
 // });
 
 
-async function extractTokenFromHeader(header){
+function extractTokenFromHeader(header){
     const splitToken = header.split(' ')
     const token = splitToken[1]
 
@@ -48,6 +48,28 @@ function decodeToken(token){
     }
 }
 
+const secretKey = 'salt'; // JWT 시크릿 키
+
+// 미들웨어: JWT 토큰 검증
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = extractTokenFromHeader(authHeader)
+
+    console.log(token)
+
+    if (!token) {
+        return res.sendStatus(401);
+    }
+
+    jwt.verify(token, secretKey, (err, user) => {
+        if (err) {
+            return res.sendStatus(403);
+        }
+        req.user = user;
+        next();
+    });
+};
+
 router.get('/api', async (req, res) => {
     const apikey = process.env.EXRATE_KEY;
     const url = `https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=${apikey}&data=AP01`
@@ -65,6 +87,72 @@ router.get('/api', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch data from API' });
     }
 });
+
+router.post('/exchange', authenticateToken, async (req, res) => {
+    let { fromCurrency, toCurrency, amount, convertedAmount } = req.body;
+    console.log(req.body)
+    console.log(req.user)
+    const userId = req.user.id;
+
+    if (!fromCurrency || !toCurrency || !amount || !userId) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        // Create a new mysqldb
+        const { mysqldb } = await setup()
+
+        try {
+            await mysqldb.beginTransaction();
+
+            // // Fetch exchange rates
+            // const [rateRows] = await mysqldb.query('SELECT * FROM exchange_rates WHERE id = 1');
+            // const rates = rateRows[0];
+            // const fromRate = parseFloat(rates[fromCurrency]);
+            // const toRate = parseFloat(rates[toCurrency]);
+            //
+            // if (!fromRate || !toRate) {
+            //     throw new Error('Invalid currency');
+            // }
+
+            // Calculate the amount in the target currency
+            const fromAmount = amount
+            const toAmount = convertedAmount
+
+            if (fromCurrency === 'JPY(100)'){
+                fromCurrency = 'JPY100'
+            }
+
+            if (toCurrency === 'JPY(100)'){
+                toCurrency = 'JPY100'
+            }
+
+            // Fetch user's current balance
+            const [walletRows] = await mysqldb.query('SELECT ?? FROM wallet WHERE id = ?', [fromCurrency, userId]);
+            const currentBalance = parseFloat(walletRows[0][fromCurrency]);
+
+            if (currentBalance < amount) {
+                throw new Error('Insufficient funds');
+            }
+
+            // Update user's wallet
+            await mysqldb.query('UPDATE wallet SET ?? = ?? - ? WHERE id = ?', [fromCurrency, fromCurrency, fromAmount, userId]);
+            await mysqldb.query('UPDATE wallet SET ?? = ?? + ? WHERE id = ?', [toCurrency, toCurrency, toAmount, userId]);
+
+            await mysqldb.commit();
+            res.json({ success: true, amount: toAmount });
+        } catch (error) {
+            await mysqldb.rollback();
+            console.error('Error during transaction:', error);
+            res.status(500).json({ error: 'Failed to process exchange request' });
+        }
+    } catch (error) {
+        console.error('Error connecting to database:', error);
+        res.status(500).json({ error: 'Failed to connect to database' });
+    }
+});
+
+
 
 router.post('/send', async (req, res) => {
     const body = req.body
@@ -114,7 +202,7 @@ router.post('/send', async (req, res) => {
         const [s_rows, s_fields] = await mysqldb.query(calQuery, [ -amount , user.id])
         const [r_rows, r_fields] = await mysqldb.query(calQuery, [ amount, req.body.receiver])
 
-        const insertQuery = 'INSERT INTO traction(sendUid, reciveUid, money_type, amount ) values (?, ? ,? ,?)'
+        const insertQuery = 'INSERT INTO transaction(sendUid, reciveUid, money_type, amount ) values (?, ? ,? ,?)'
 
         const [result, fields] = await mysqldb.query(insertQuery, [user.id, req.body.receiver, 1, amount])
 
@@ -134,7 +222,7 @@ router.get('/transactions', async (req, res) => {
         const {mysqldb} = await setup()
         const query = `
             SELECT t.id, s.name AS sender_name, r.name AS receiver_name, t.amount, t.money_type, t.createdAt
-            FROM traction t
+            FROM transaction t
             JOIN account s ON t.sendUid = s.id
             JOIN account r ON t.reciveUid = r.id
             ORDER BY t.createdAt DESC;

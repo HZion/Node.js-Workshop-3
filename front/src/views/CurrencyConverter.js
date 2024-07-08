@@ -7,6 +7,8 @@ const CurrencyConverter = () => {
     const [fromCurrency, setFromCurrency] = useState('KRW');
     const [toCurrency, setToCurrency] = useState('JPY(100)');
     const [convertedAmount, setConvertedAmount] = useState(0);
+    const [message, setMessage] = useState('');
+
 
     useEffect(() => {
         axios.get('/banking/api', {maxRedirects: 5})
@@ -18,6 +20,28 @@ const CurrencyConverter = () => {
                 console.error("There was an error fetching the exchange rates!", error);
             });
     }, []);
+
+    const handleExchange = async () => {
+        const token = sessionStorage.getItem('token');
+
+        try {
+            const response = await axios.post('/banking/exchange', {
+                fromCurrency,
+                toCurrency,
+                amount,
+                convertedAmount
+        }, {
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        })
+        setMessage(`Successfully exchanged! You received ${response.data.amount} ${toCurrency}`);
+    } catch (error) {
+        console.error('Error during exchange:', error);
+        setMessage('Failed to exchange currency.');
+    }
+
+    };
 
     useEffect(() => {
         const convertToNumber = (str) => parseFloat(str.replace(/,/g, ''));
@@ -54,7 +78,8 @@ const CurrencyConverter = () => {
                     value={fromCurrency}
                     onChange={e => {
                         console.log(e.target.value)
-                        setFromCurrency(e.target.value)}
+                        setFromCurrency(e.target.value)
+                    }
                     }
                 >
                     {rates.map(rate => (
@@ -74,6 +99,8 @@ const CurrencyConverter = () => {
                         </option>
                     ))}
                 </select>
+                <button onClick={handleExchange}>Exchange</button>
+                {message && <p>{message}</p>}
             </div>
             <div>
                 <h2>{amount} {fromCurrency} = {convertedAmount.toFixed(2)} {toCurrency}</h2>
