@@ -21,7 +21,11 @@ const { setup } = require('./db_setup');
 //   saveUninitialized: false // 초기화되지 않은 세션을 저장할지 설정
 // }));
 
+const path = require('path');
 // 서버 시작
+app.use('/', express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+
 app.listen(port, async () => {
   await setup();
   console.log(`App running on port ${port}...`);
