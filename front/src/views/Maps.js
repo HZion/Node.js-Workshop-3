@@ -4,6 +4,8 @@ import Modal from 'react-modal';
 import { KakaoMap, Marker, InfoWindow } from 'react-kakao-maps'; // react-kakao-maps에서 필요한 컴포넌트 임포트
 
 Modal.setAppElement('#root');
+const host = process.env.REACT_APP_HOST
+
  const API_PORT = '30000'
 function Maps() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -26,17 +28,17 @@ function Maps() {
 //랜더링 시작시 db와 연결
   const fetchProperties = async () => {
     try {
-      const serverResponse = await fetch(`http://localhost:${API_PORT}/maps/loadmap`, {
+      const serverResponse = await fetch(`http://${host}:${API_PORT}/maps/loadmap`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json;charset=utf-8",
         },
       });
-  
+
       if (!serverResponse.ok) {
         throw new Error('서버에서 데이터를 가져오는 데 문제가 발생했습니다.');
       }
-  
+
       const data = await serverResponse.json();
       setProperties(data); // 서버에서 받아온 데이터를 상태에 설정
       console.log(data);
@@ -53,9 +55,9 @@ function Maps() {
           },
         ]);
 
-        
+
       });
-  
+
     } catch (error) {
       console.error('데이터를 불러오는 중 오류가 발생했습니다:', error.message);
     }
@@ -91,8 +93,8 @@ function Maps() {
       ]);
 
       // 부동산 정보를 서버로 전송
- 
-        const serverResponse = await fetch(`http://localhost:${API_PORT}/maps/insertmap`, {
+
+        const serverResponse = await fetch(`http://${host}:${API_PORT}/maps/insertmap`, {
           method: 'POST',
           headers: {
             "Content-Type": "application/json;charset=utf-8",
@@ -106,7 +108,7 @@ function Maps() {
           }),
         });
 
-       
+
     } else {
       console.error('주소를 찾을 수 없습니다.');
     }

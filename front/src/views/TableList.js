@@ -10,6 +10,7 @@ import {
   Form
 } from "react-bootstrap";
 
+const host = process.env.REACT_APP_HOST
 function TableList() {
   const [showPostModal, setShowPostModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -22,7 +23,7 @@ function TableList() {
     // 페이지 로드 시 게시물 데이터를 서버에서 가져옴
     const fetchPosts = async () => {
       try {
-        const serverResponse = await fetch(`http://localhost:${API_PORT}/post/loadpost`, {
+        const serverResponse = await fetch(`http://${host}:${API_PORT}/post/loadpost`, {
           method: 'POST',
           headers: {
             "Content-Type": "application/json;charset=utf-8",
@@ -31,6 +32,7 @@ function TableList() {
         if (!serverResponse.ok) {
           throw new Error('서버에서 데이터를 가져오는 데 문제가 발생했습니다.');
         }
+
       
         const data = await serverResponse.json();
         setPosts(data);
@@ -56,6 +58,7 @@ function TableList() {
     e.preventDefault();
     const token = sessionStorage.getItem('token');
     try {
+      const response = await fetch(`http://${host}:${API_PORT}/post/insertpost`, {
       const formData = new FormData();
       formData.append('title', newPost.title);
       //jwt 토큰있으면 Uid, 없으면 guest 
@@ -128,6 +131,7 @@ function TableList() {
                     <tr>
                       <th className="border-0">ID</th>
                       <th className="border-0">Name</th>
+
                       <th className="border-0">Title</th>                   
                       <th className="border-0">Date</th>
                     </tr>
