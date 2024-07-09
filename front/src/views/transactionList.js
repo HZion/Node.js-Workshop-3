@@ -41,7 +41,7 @@ const TransactionList = () => {
                         <td>{transaction.receiver_name}</td>
                         <td>{transaction.amount}</td>
                         <td>{transaction.money_type}</td>
-                        <td>{dateFormat(transaction.createdAt)}</td>
+                        <td>{dateFormat(transaction.created_at)}</td>
                     </tr>
                 ))}
                 </tbody>
