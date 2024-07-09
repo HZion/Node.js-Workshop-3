@@ -30,7 +30,7 @@ const authenticateToken = (req, res, next) => {
 };
 
 
-router.post('/account/insertMember', async function (req, res) {
+router.post('/insertMember', async function (req, res) {
 
   const { mysqldb } = await setup();
   console.log('db 확인');
@@ -74,7 +74,7 @@ router.post('/account/insertMember', async function (req, res) {
 
 });
 
-router.get('/account/asset', authenticateToken, async (req, res) => {
+router.get('/asset', authenticateToken, async (req, res) => {
     const userId = req.user.id;
 
     try {
@@ -95,7 +95,7 @@ router.get('/account/asset', authenticateToken, async (req, res) => {
 });
 
 
-router.get('/account/users', async (req, res) => {
+router.get('/users', async (req, res) => {
     try {
         const { mysqldb } = await setup();
         const getUsersQuery = 'SELECT id, Name FROM account';
@@ -107,7 +107,7 @@ router.get('/account/users', async (req, res) => {
     }
 });
 
-router.post("/account/login", async function (req, res) {
+router.post("/login", async function (req, res) {
     console.log(req.body);
     const { mysqldb } = await setup();
 
@@ -138,7 +138,7 @@ router.post("/account/login", async function (req, res) {
     }
 });
 
-router.get('/account/session-test', (req, res) => {
+router.get('/session-test', (req, res) => {
   // console.log(req.session);
   // if (req.session.user) {
   //   res.json({msg:'이미 로그인 되어 있습니다'})

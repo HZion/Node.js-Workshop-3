@@ -21,7 +21,11 @@ const { setup } = require('./db_setup');
 //   saveUninitialized: false // 초기화되지 않은 세션을 저장할지 설정
 // }));
 
+const path = require('path');
 // 서버 시작
+app.use('/', express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+
 app.listen(port, async () => {
   await setup();
   console.log(`App running on port ${port}...`);
@@ -41,7 +45,7 @@ app.use(cors(corsOptions))
 
 
 // 라우터 설정
-app.use('/', require('./routes/account'));
+app.use('/account', require('./routes/account'));
 app.use('/maps', require('./routes/maps'));
 app.use('/post', require('./routes/post'));
 app.use('/banking', exrateRouter);

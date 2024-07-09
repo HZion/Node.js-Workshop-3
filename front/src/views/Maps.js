@@ -230,8 +230,8 @@ function Maps() {
             <li
               key={index}
               style={{ borderBottom: '3px solid black', padding: '10px' }}
-              onMouseOver={() => handleMouseOver(markers[index])}
-              onMouseOut={handleMouseOut}
+              // onMouseOver={() => handleMouseOver(markers[index])}
+              // onMouseOut={handleMouseOut}
             >
               <h4 id="item_title">{property.name}</h4>
               <p>가격: {property.price}</p>

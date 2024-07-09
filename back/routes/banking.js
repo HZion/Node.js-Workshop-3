@@ -71,6 +71,7 @@ const authenticateToken = (req, res, next) => {
 };
 
 router.get('/api', async (req, res) => {
+    console.log('api시작');
     const apikey = process.env.EXRATE_KEY;
 
     const url = `https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=${apikey}&data=AP01`
