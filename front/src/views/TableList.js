@@ -10,6 +10,7 @@ import {
   Form
 } from "react-bootstrap";
 
+const host = process.env.REACT_APP_HOST
 function TableList() {
   const [showPostModal, setShowPostModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -22,7 +23,7 @@ function TableList() {
     // Fetch posts from the server when the component mounts
     const fetchPosts = async () => {
       try {
-        const serverResponse = await fetch(`http://localhost:${API_PORT}/post/loadpost`, {
+        const serverResponse = await fetch(`http://${host}:${API_PORT}/post/loadpost`, {
           method: 'POST',
           headers: {
             "Content-Type": "application/json;charset=utf-8",
@@ -32,11 +33,11 @@ function TableList() {
         if (!serverResponse.ok) {
           throw new Error('서버에서 데이터를 가져오는 데 문제가 발생했습니다.');
         }
-      
+
           const data = await serverResponse.json();
           console.log(data);
           setPosts(data);
-        
+
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
@@ -57,7 +58,7 @@ function TableList() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:${API_PORT}/post/insertpost`, {
+      const response = await fetch(`http://${host}:${API_PORT}/post/insertpost`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
@@ -109,7 +110,7 @@ function TableList() {
                     <tr>
                       <th className="border-0">ID</th>
                       <th className="border-0">Name</th>
-                      <th className="border-0">title</th>                   
+                      <th className="border-0">title</th>
                       <th className="border-0">date</th>
                     </tr>
                   </thead>
