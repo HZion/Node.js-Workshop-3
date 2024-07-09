@@ -45,7 +45,7 @@ app.use(cors(corsOptions))
 
 
 // 라우터 설정
-app.use('/', require('./routes/account'));
+app.use('/account', require('./routes/account'));
 app.use('/maps', require('./routes/maps'));
 app.use('/post', require('./routes/post'));
 app.use('/banking', exrateRouter);

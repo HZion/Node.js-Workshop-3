@@ -24,7 +24,7 @@ import { Cookies } from "react-cookie";
 import Modal from "react-modal";
 import LoginModal from "./LoginModal";
 import InsertMemberModal from "./InsertMemberModal";
-
+ const API_PORT = '30000'
 function Header() {
   const location = useLocation();
   const mobileSidebarToggle = (e) => {
@@ -85,7 +85,7 @@ function Header() {
 
   const insertMember = async () => {
     console.log(memberInfo);
-    let data = await fetch("http://localhost:8080/account/insertMember", {
+    let data = await fetch(`http://localhost:${API_PORT}/account/insertMember`, {
       method: "post",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -110,7 +110,7 @@ function Header() {
   };
 
   const login = () => {
-    fetch("http://localhost:30000/account/login", {
+    fetch(`http://localhost:${API_PORT}/account/login`, {
       method: "POST", //메소드 지정
       headers: {
         //데이터 타입 지정
@@ -140,7 +140,7 @@ function Header() {
 
   const sessionTest = async () => {
     const token = sessionStorage.getItem('token');
-    let data = await fetch("http://localhost:8080/account/session-test", {
+    let data = await fetch(`http://localhost:${API_PORT}/account/session-test`, {
       headers: {
         Authorization: token,
       },
